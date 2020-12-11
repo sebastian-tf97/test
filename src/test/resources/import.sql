@@ -1,0 +1,1 @@
+-- intentionally left empty to prevent testcases from loading src/main/resources/import.sql
