@@ -1,5 +1,6 @@
 package com.example.employeemgmt.service;
 
+import com.example.employeemgmt.exception.EmployeeNotFoundException;
 import com.example.employeemgmt.model.Employee;
 import com.example.employeemgmt.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,8 @@ public class EmployeeService {
         return (List<Employee>) employeeRepo.findAll();
     }
 
-    public Optional<Employee> getEmployeeById(int empid) {
-        return employeeRepo.findById(empid);
+    public Employee getEmployeeById(int empid) {
+        return employeeRepo.findById(empid).orElseThrow(() -> new EmployeeNotFoundException(empid));
     }
 
     public List<Employee> getEmployeeByName(String name) {

@@ -70,10 +70,10 @@ class EmployeeServiceIntegrationTest {
         List<Employee> employees = employeeService.getAllEmployees();
         Employee employeeAFromList = employees.get(0);
 
-        Optional<Employee> result = employeeService.getEmployeeById(employeeAFromList.getEmpid());
+        Employee result = employeeService.getEmployeeById(employeeAFromList.getEmpid());
 
         assertNotNull(result);
-        assertEquals("Employee A", result.get().getName());
+        assertEquals("Employee A", result.getName());
     }
 
     @Test

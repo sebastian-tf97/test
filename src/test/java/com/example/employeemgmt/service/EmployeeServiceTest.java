@@ -83,10 +83,10 @@ class EmployeeServiceTest {
     void getEmployeeById() {
         when(employeeRepository.findById(0)).thenReturn(Optional.of(mockEmployeeA));
 
-        Optional<Employee> result = employeeService.getEmployeeById(0);
+        Employee result = employeeService.getEmployeeById(0);
 
         assertNotNull(result);
-        assertEquals("Employee A", result.get().getName());
+        assertEquals("Employee A", result.getName());
     }
 
     @Test

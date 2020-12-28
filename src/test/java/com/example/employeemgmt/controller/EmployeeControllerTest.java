@@ -24,8 +24,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -108,7 +106,7 @@ class EmployeeControllerTest {
 
     @Test
     void getEmployeeByEmpid() throws Exception {
-        when(employeeService.getEmployeeById(1)).thenReturn(Optional.of(mockEmployeeA));
+        when(employeeService.getEmployeeById(1)).thenReturn(mockEmployeeA);
 
         MvcResult result = mockMvc
                 .perform(get("/employees/1"))

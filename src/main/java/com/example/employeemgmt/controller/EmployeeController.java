@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class EmployeeController {
@@ -20,7 +19,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees/{empid}")
-    public Optional<Employee> getEmployeeByEmpid(@PathVariable int empid) {
+    public Employee getEmployeeByEmpid(@PathVariable int empid) {
         return employeeService.getEmployeeById(empid);
     }
 
