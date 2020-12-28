@@ -34,4 +34,8 @@ public class EmployeeService {
     public Employee createEmployee(Employee employee) {
         return employeeRepo.save(employee);
     }
+
+    public List<Employee> getEmployeesByAgeGenderDept(int minAge, String gender, String department) {
+        return employeeRepo.findByAgeGenderDept(minAge, gender, department);
+    }
 }
