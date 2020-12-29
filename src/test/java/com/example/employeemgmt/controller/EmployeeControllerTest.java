@@ -140,7 +140,14 @@ class EmployeeControllerTest {
     void createEmployee() throws Exception {
         when(employeeService.createEmployee(any(Employee.class))).thenReturn(mockEmployeeA);
 
-        String newEmployeeJSON = this.mapToJson(new Employee());
+        Employee newEmployee = new Employee();
+        newEmployee.setName("Employee A");
+        newEmployee.setAge(23);
+        newEmployee.setGender("M");
+        newEmployee.setDesignation("Systems Engineer");
+        newEmployee.setDepartment("IT");
+
+        String newEmployeeJSON = this.mapToJson(newEmployee);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .post("/employees")
