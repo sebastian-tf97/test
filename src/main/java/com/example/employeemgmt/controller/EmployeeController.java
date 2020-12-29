@@ -1,5 +1,6 @@
 package com.example.employeemgmt.controller;
 
+import com.example.employeemgmt.dto.EmployeeDTO;
 import com.example.employeemgmt.model.Employee;
 import com.example.employeemgmt.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,27 +16,27 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     @GetMapping("/employees")
-    public List<Employee> getAllEmployees() {
+    public List<EmployeeDTO> getAllEmployees() {
         return employeeService.getAllEmployees();
     }
 
     @GetMapping("/employees/{empid}")
-    public Employee getEmployeeByEmpid(@PathVariable int empid) {
+    public EmployeeDTO getEmployeeByEmpid(@PathVariable int empid) {
         return employeeService.getEmployeeById(empid);
     }
 
     @GetMapping(value = "/employees", params = "name")
-    public List<Employee> getEmployeeByName(@RequestParam(value = "name") String name) {
+    public List<EmployeeDTO> getEmployeeByName(@RequestParam(value = "name") String name) {
         return employeeService.getEmployeeByName(name);
     }
 
     @PostMapping("/employees")
-    public Employee createEmployee(@RequestBody @Valid Employee employee) {
+    public EmployeeDTO createEmployee(@RequestBody @Valid Employee employee) {
         return employeeService.createEmployee(employee);
     }
 
     @GetMapping(value = "/employees", params = {"minAge", "gender", "department"})
-    public List<Employee> getEmployeeByName(@RequestParam(value = "minAge") int minAge, @RequestParam(value = "gender") String gender, @RequestParam(value = "department") String department) {
+    public List<EmployeeDTO> getEmployeeByName(@RequestParam(value = "minAge") int minAge, @RequestParam(value = "gender") String gender, @RequestParam(value = "department") String department) {
         return employeeService.getEmployeesByAgeGenderDept(minAge, gender, department);
     }
 
