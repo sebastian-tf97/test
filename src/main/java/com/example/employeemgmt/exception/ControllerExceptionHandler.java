@@ -15,9 +15,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * {@link ControllerAdvice} exception handler class for {@link com.example.employeemgmt.controller.EmployeeController}
+ */
 @ControllerAdvice
 public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
+    /**
+     * {@link ExceptionHandler} for {@link EmployeeNotFoundException}
+     * @param ex {@link EmployeeNotFoundException} instance
+     * @param request {@link WebRequest} instance
+     * @return 404 Not Found {@link ResponseEntity}
+     */
     @ExceptionHandler(EmployeeNotFoundException.class)
     public ResponseEntity<Object> handleEmployeeNotFoundException(EmployeeNotFoundException ex, WebRequest request) {
         Map<String, Object> body = new HashMap<>();
@@ -25,6 +34,12 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * {@link ExceptionHandler} for {@link NoEmployeesFoundException}
+     * @param ex {@link NoEmployeesFoundException} instance
+     * @param request {@link WebRequest} instance
+     * @return 404 Not Found {@link ResponseEntity}
+     */
     @ExceptionHandler(NoEmployeesFoundException.class)
     public ResponseEntity<Object> handleNoEmployeesFoundException(NoEmployeesFoundException ex, WebRequest request) {
         Map<String, Object> body = new HashMap<>();
@@ -32,6 +47,15 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * {@link ExceptionHandler} for {@link MethodArgumentNotValidException} <br><br>
+     * Handle {@link com.example.employeemgmt.model.Employee} validation exceptions
+     * @param ex {@link MethodArgumentNotValidException} instance
+     * @param headers {@link HttpHeaders} headers
+     * @param status {@link HttpStatus} status
+     * @param request {@link WebRequest} instance
+     * @return 400 Bad Request {@link ResponseEntity}
+     */
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         Map<String, Object> body = new HashMap<>();
