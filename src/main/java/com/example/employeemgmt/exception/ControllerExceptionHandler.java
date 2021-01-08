@@ -11,7 +11,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +29,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(EmployeeNotFoundException.class)
     public ResponseEntity<Object> handleEmployeeNotFoundException(EmployeeNotFoundException ex, WebRequest request) {
+        Map<String, Object> body = new LinkedHashMap<>();
         body.put("code", ex.getErrorCode());
         body.put("message", ex.getErrorMessage());
         body.put("empid", ex.getEmpid());
@@ -43,6 +44,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(NoEmployeesFoundException.class)
     public ResponseEntity<Object> handleNoEmployeesFoundException(NoEmployeesFoundException ex, WebRequest request) {
+        Map<String, Object> body = new LinkedHashMap<>();
         body.put("code", ex.getErrorCode());
         body.put("message", ex.getErrorMessage());
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
@@ -59,7 +61,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        Map<String, Object> body = new HashMap<>();
+        Map<String, Object> body = new LinkedHashMap<>();
         List<String> errors = new ArrayList<>();
         ex.getBindingResult().getAllErrors().forEach(error -> {
             String field = ((FieldError) error).getField();
