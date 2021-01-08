@@ -2,6 +2,7 @@ package com.example.employeemgmt.service;
 
 import com.example.employeemgmt.dto.EmployeeDTO;
 import com.example.employeemgmt.exception.EmployeeNotFoundException;
+import com.example.employeemgmt.exception.ErrorCode;
 import com.example.employeemgmt.exception.NoEmployeesFoundException;
 import com.example.employeemgmt.model.Employee;
 import com.example.employeemgmt.repository.EmployeeRepository;
@@ -40,7 +41,7 @@ public class EmployeeService {
                                                         .map(this::convertToDTO)
                                                         .collect(Collectors.toList());
 
-        if(employees.isEmpty()) throw new NoEmployeesFoundException();
+        if(employees.isEmpty()) throw new NoEmployeesFoundException(ErrorCode.NO_EMPLOYEES_FOUND);
 
         return employees;
     }
@@ -51,7 +52,7 @@ public class EmployeeService {
      * @return a single {@link EmployeeDTO} object converted from {@link Employee} object
      */
     public EmployeeDTO getEmployeeById(int empid) {
-        Employee employee =  employeeRepo.findById(empid).orElseThrow(() -> new EmployeeNotFoundException(empid));
+        Employee employee =  employeeRepo.findById(empid).orElseThrow(() -> new EmployeeNotFoundException(ErrorCode.EMPLOYEE_NOT_FOUND, empid));
         return convertToDTO(employee);
     }
 

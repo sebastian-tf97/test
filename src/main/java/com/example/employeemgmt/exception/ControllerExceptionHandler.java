@@ -29,8 +29,9 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(EmployeeNotFoundException.class)
     public ResponseEntity<Object> handleEmployeeNotFoundException(EmployeeNotFoundException ex, WebRequest request) {
-        Map<String, Object> body = new HashMap<>();
-        body.put("message", ex.getMessage());
+        body.put("code", ex.getErrorCode());
+        body.put("message", ex.getErrorMessage());
+        body.put("empid", ex.getEmpid());
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
 
@@ -42,8 +43,8 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(NoEmployeesFoundException.class)
     public ResponseEntity<Object> handleNoEmployeesFoundException(NoEmployeesFoundException ex, WebRequest request) {
-        Map<String, Object> body = new HashMap<>();
-        body.put("message", ex.getMessage());
+        body.put("code", ex.getErrorCode());
+        body.put("message", ex.getErrorMessage());
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
 
