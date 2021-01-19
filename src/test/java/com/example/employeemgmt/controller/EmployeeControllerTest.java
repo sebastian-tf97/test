@@ -1,5 +1,6 @@
 package com.example.employeemgmt.controller;
 
+import com.example.employeemgmt.dto.EmployeeDTO;
 import com.example.employeemgmt.model.Employee;
 import com.example.employeemgmt.service.EmployeeService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -44,52 +45,46 @@ class EmployeeControllerTest {
     @InjectMocks
     EmployeeController employeeController;
 
-    List<Employee> mockEmployees;
-    Employee mockEmployeeA;
-    Employee mockEmployeeB;
-    Employee mockEmployeeC;
+    List<EmployeeDTO> mockEmployeesDTO;
+    EmployeeDTO mockEmployeeADTO;
+    EmployeeDTO mockEmployeeBDTO;
+    EmployeeDTO mockEmployeeCDTO;
 
-    String mockEmployeesJSON;
-    String mockEmployeeAJSON;
-    String mockEmployeesByNameJSON;
+    String mockEmployeesDTOJSON;
+    String mockEmployeeADTOJSON;
+    String mockEmployeesByNameDTOJSON;
 
     @BeforeAll()
     void init() throws JsonProcessingException {
-        mockEmployees = new ArrayList<>();
+        mockEmployeesDTO = new ArrayList<>();
 
-        mockEmployeeA = new Employee();
-        mockEmployeeA.setName("Employee A");
-        mockEmployeeA.setAge(23);
-        mockEmployeeA.setGender("M");
-        mockEmployeeA.setDesignation("Systems Engineer");
-        mockEmployeeA.setDepartment("IT");
+        mockEmployeeADTO = new EmployeeDTO();
+        mockEmployeeADTO.setName("Employee A");
+        mockEmployeeADTO.setDesignation("Systems Engineer");
+        mockEmployeeADTO.setDepartment("IT");
 
-        mockEmployeeB = new Employee();
-        mockEmployeeB.setName("Employee B");
-        mockEmployeeB.setAge(23);
-        mockEmployeeB.setGender("F");
-        mockEmployeeB.setDesignation("Assistant Systems Engineer");
-        mockEmployeeB.setDepartment("IT");
+        mockEmployeeBDTO = new EmployeeDTO();
+        mockEmployeeBDTO.setName("Employee B");
+        mockEmployeeBDTO.setDesignation("Assistant Systems Engineer");
+        mockEmployeeBDTO.setDepartment("IT");
 
-        mockEmployeeC = new Employee();
-        mockEmployeeC.setName("Employee C");
-        mockEmployeeC.setAge(23);
-        mockEmployeeC.setGender("M");
-        mockEmployeeC.setDesignation("Recruiter");
-        mockEmployeeC.setDepartment("HR");
+        mockEmployeeCDTO = new EmployeeDTO();
+        mockEmployeeCDTO.setName("Employee C");
+        mockEmployeeCDTO.setDesignation("Recruiter");
+        mockEmployeeCDTO.setDepartment("HR");
 
-        mockEmployees.add(mockEmployeeA);
-        mockEmployees.add(mockEmployeeB);
-        mockEmployees.add(mockEmployeeC);
+        mockEmployeesDTO.add(mockEmployeeADTO);
+        mockEmployeesDTO.add(mockEmployeeBDTO);
+        mockEmployeesDTO.add(mockEmployeeCDTO);
 
-        mockEmployeesJSON = this.mapToJson(mockEmployees);
-        mockEmployeeAJSON = this.mapToJson(mockEmployeeA);
-        mockEmployeesByNameJSON = this.mapToJson(new ArrayList<>(Arrays.asList(mockEmployeeA)));
+        mockEmployeesDTOJSON = this.mapToJson(mockEmployeesDTO);
+        mockEmployeeADTOJSON = this.mapToJson(mockEmployeeADTO);
+        mockEmployeesByNameDTOJSON = this.mapToJson(new ArrayList<>(Arrays.asList(mockEmployeeADTO)));
     }
 
     @Test
     void getAllEmployees() throws Exception {
-        when(employeeService.getAllEmployees()).thenReturn(mockEmployees);
+        when(employeeService.getAllEmployees()).thenReturn(mockEmployeesDTO);
 
         MvcResult result = mockMvc
                 .perform(get("/employees"))
@@ -99,14 +94,14 @@ class EmployeeControllerTest {
         MockHttpServletResponse response = result.getResponse();
         String responseJSON = response.getContentAsString();
 
-        assertEquals(mockEmployeesJSON, responseJSON);
+        assertEquals(mockEmployeesDTOJSON, responseJSON);
         assertEquals(HttpStatus.OK.value(), response.getStatus());
 
     }
 
     @Test
     void getEmployeeByEmpid() throws Exception {
-        when(employeeService.getEmployeeById(1)).thenReturn(mockEmployeeA);
+        when(employeeService.getEmployeeById(1)).thenReturn(mockEmployeeADTO);
 
         MvcResult result = mockMvc
                 .perform(get("/employees/1"))
@@ -116,13 +111,13 @@ class EmployeeControllerTest {
         MockHttpServletResponse response = result.getResponse();
         String responseJSON = response.getContentAsString();
 
-        assertEquals(mockEmployeeAJSON, responseJSON);
+        assertEquals(mockEmployeeADTOJSON, responseJSON);
         assertEquals(HttpStatus.OK.value(), response.getStatus());
     }
 
     @Test
     void getEmployeeByName() throws Exception {
-        when(employeeService.getEmployeeByName(any(String.class))).thenReturn(new ArrayList<>(Arrays.asList(mockEmployeeA)));
+        when(employeeService.getEmployeeByName(any(String.class))).thenReturn(new ArrayList<>(Arrays.asList(mockEmployeeADTO)));
 
         MvcResult result = mockMvc
                 .perform(get("/employees?name=Employee A"))
@@ -132,13 +127,13 @@ class EmployeeControllerTest {
         MockHttpServletResponse response = result.getResponse();
         String responseJSON = response.getContentAsString();
 
-        assertEquals(mockEmployeesByNameJSON, responseJSON);
+        assertEquals(mockEmployeesByNameDTOJSON, responseJSON);
         assertEquals(HttpStatus.OK.value(), response.getStatus());
     }
 
     @Test
     void createEmployee() throws Exception {
-        when(employeeService.createEmployee(any(Employee.class))).thenReturn(mockEmployeeA);
+        when(employeeService.createEmployee(any(Employee.class))).thenReturn(mockEmployeeADTO);
 
         Employee newEmployee = new Employee();
         newEmployee.setName("Employee A");
@@ -163,7 +158,7 @@ class EmployeeControllerTest {
         MockHttpServletResponse response = result.getResponse();
         String responseJSON = response.getContentAsString();
 
-        assertEquals(mockEmployeeAJSON, responseJSON);
+        assertEquals(mockEmployeeADTOJSON, responseJSON);
         assertEquals(HttpStatus.OK.value(), response.getStatus());
     }
 

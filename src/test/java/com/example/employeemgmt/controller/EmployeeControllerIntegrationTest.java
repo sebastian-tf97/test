@@ -1,5 +1,6 @@
 package com.example.employeemgmt.controller;
 
+import com.example.employeemgmt.dto.EmployeeDTO;
 import com.example.employeemgmt.model.Employee;
 import com.example.employeemgmt.service.EmployeeService;
 import org.junit.jupiter.api.BeforeAll;
@@ -72,7 +73,7 @@ class EmployeeControllerIntegrationTest {
         String uri = "http://localhost:"+port+"/employees";
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<String> httpEntity = new HttpEntity<>(null, headers);
-        ResponseEntity<Employee[]> responseEntity = testRestTemplate.exchange(uri, HttpMethod.GET, httpEntity, Employee[].class);
+        ResponseEntity<EmployeeDTO[]> responseEntity = testRestTemplate.exchange(uri, HttpMethod.GET, httpEntity, EmployeeDTO[].class);
 
         assertNotNull(responseEntity.getBody());
         assertEquals(3, responseEntity.getBody().length);
@@ -84,7 +85,7 @@ class EmployeeControllerIntegrationTest {
         String uri = "http://localhost:"+port+"/employees/1";
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<String> httpEntity = new HttpEntity<>(null, headers);
-        ResponseEntity<Employee> responseEntity = testRestTemplate.exchange(uri, HttpMethod.GET, httpEntity, Employee.class);
+        ResponseEntity<EmployeeDTO> responseEntity = testRestTemplate.exchange(uri, HttpMethod.GET, httpEntity, EmployeeDTO.class);
 
         assertNotNull(responseEntity.getBody());
         assertEquals("Employee A", responseEntity.getBody().getName());
@@ -95,7 +96,7 @@ class EmployeeControllerIntegrationTest {
         String uri = "http://localhost:"+port+"/employees?name=Employee A";
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<String> httpEntity = new HttpEntity<>(null, headers);
-        ResponseEntity<Employee[]> responseEntity = testRestTemplate.exchange(uri, HttpMethod.GET, httpEntity, Employee[].class);
+        ResponseEntity<EmployeeDTO[]> responseEntity = testRestTemplate.exchange(uri, HttpMethod.GET, httpEntity, EmployeeDTO[].class);
 
         assertNotNull(responseEntity.getBody());
         assertEquals(1, responseEntity.getBody().length);
@@ -115,7 +116,7 @@ class EmployeeControllerIntegrationTest {
 
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<Employee> httpEntity = new HttpEntity<>(newEmployee, headers);
-        ResponseEntity<Employee> responseEntity = testRestTemplate.exchange(uri, HttpMethod.POST, httpEntity, Employee.class);
+        ResponseEntity<EmployeeDTO> responseEntity = testRestTemplate.exchange(uri, HttpMethod.POST, httpEntity, EmployeeDTO.class);
 
         assertNotNull(responseEntity.getBody());
         assertEquals("New Employee", responseEntity.getBody().getName());

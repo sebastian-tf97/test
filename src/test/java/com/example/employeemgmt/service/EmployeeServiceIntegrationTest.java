@@ -1,5 +1,6 @@
 package com.example.employeemgmt.service;
 
+import com.example.employeemgmt.dto.EmployeeDTO;
 import com.example.employeemgmt.model.Employee;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -60,7 +61,7 @@ class EmployeeServiceIntegrationTest {
 
     @Test
     public void getAllEmployees() {
-        List<Employee> result = employeeService.getAllEmployees();
+        List<EmployeeDTO> result = employeeService.getAllEmployees();
 
         assertFalse(result.isEmpty());
         assertEquals(3, result.size());
@@ -71,10 +72,10 @@ class EmployeeServiceIntegrationTest {
 
     @Test
     public void getEmployeeById() {
-        List<Employee> employees = employeeService.getAllEmployees();
-        Employee employeeAFromList = employees.get(0);
+        List<EmployeeDTO> employees = employeeService.getAllEmployees();
+        EmployeeDTO employeeAFromList = employees.get(0);
 
-        Employee result = employeeService.getEmployeeById(employeeAFromList.getEmpid());
+        EmployeeDTO result = employeeService.getEmployeeById(employeeAFromList.getEmpid());
 
         assertNotNull(result);
         assertEquals("Employee A", result.getName());
@@ -82,7 +83,7 @@ class EmployeeServiceIntegrationTest {
 
     @Test
     public void getEmployeeByName() {
-        List<Employee> result = employeeService.getEmployeeByName("Employee A");
+        List<EmployeeDTO> result = employeeService.getEmployeeByName("Employee A");
 
         assertFalse(result.isEmpty());
         assertEquals(1, result.size());
@@ -98,11 +99,11 @@ class EmployeeServiceIntegrationTest {
         newEmployee.setDesignation("Recruiter");
         newEmployee.setDepartment("HR");
 
-        Employee result = employeeService.createEmployee(newEmployee);
+        EmployeeDTO result = employeeService.createEmployee(newEmployee);
 
         assertEquals("New Employee", result.getName());
 
-        List<Employee> employees = employeeService.getAllEmployees();
+        List<EmployeeDTO> employees = employeeService.getAllEmployees();
 
         assertFalse(employees.isEmpty());
         assertEquals(4, employees.size());

@@ -1,5 +1,6 @@
 package com.example.employeemgmt.service;
 
+import com.example.employeemgmt.dto.EmployeeDTO;
 import com.example.employeemgmt.model.Employee;
 import com.example.employeemgmt.repository.EmployeeRepository;
 import org.junit.jupiter.api.BeforeAll;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
@@ -30,13 +32,19 @@ class EmployeeServiceTest {
     @Mock
     EmployeeRepository employeeRepository;
 
+    @Mock
+    ModelMapper modelMapper;
+
     @InjectMocks
     EmployeeService employeeService;
 
     List<Employee> mockEmployees;
     Employee mockEmployeeA;
+    EmployeeDTO mockEmployeeADTO;
     Employee mockEmployeeB;
+    EmployeeDTO mockEmployeeBDTO;
     Employee mockEmployeeC;
+    EmployeeDTO mockEmployeeCDTO;
 
     @BeforeAll
     void init() {
@@ -49,6 +57,12 @@ class EmployeeServiceTest {
         mockEmployeeA.setDesignation("Systems Engineer");
         mockEmployeeA.setDepartment("IT");
 
+        mockEmployeeADTO = new EmployeeDTO();
+        mockEmployeeADTO.setName("Employee A");
+        mockEmployeeADTO.setDesignation("Systems Engineer");
+        mockEmployeeADTO.setDepartment("IT");
+
+
         mockEmployeeB = new Employee();
         mockEmployeeB.setName("Employee B");
         mockEmployeeB.setAge(23);
@@ -56,12 +70,23 @@ class EmployeeServiceTest {
         mockEmployeeB.setDesignation("Assistant Systems Engineer");
         mockEmployeeB.setDepartment("IT");
 
+        mockEmployeeBDTO = new EmployeeDTO();
+        mockEmployeeBDTO.setName("Employee B");
+        mockEmployeeBDTO.setDesignation("Assistant Systems Engineer");
+        mockEmployeeBDTO.setDepartment("IT");
+
+
         mockEmployeeC = new Employee();
         mockEmployeeC.setName("Employee C");
         mockEmployeeC.setAge(23);
         mockEmployeeC.setGender("M");
         mockEmployeeC.setDesignation("Recruiter");
         mockEmployeeC.setDepartment("HR");
+
+        mockEmployeeCDTO = new EmployeeDTO();
+        mockEmployeeCDTO.setName("Employee C");
+        mockEmployeeCDTO.setDesignation("Recruiter");
+        mockEmployeeCDTO.setDepartment("HR");
 
         mockEmployees.add(mockEmployeeA);
         mockEmployees.add(mockEmployeeB);
@@ -71,8 +96,11 @@ class EmployeeServiceTest {
     @Test
     void getAllEmployees() {
         when(employeeRepository.findAll()).thenReturn(mockEmployees);
+        when(modelMapper.map(mockEmployeeA, EmployeeDTO.class)).thenReturn(mockEmployeeADTO);
+        when(modelMapper.map(mockEmployeeB, EmployeeDTO.class)).thenReturn(mockEmployeeBDTO);
+        when(modelMapper.map(mockEmployeeC, EmployeeDTO.class)).thenReturn(mockEmployeeCDTO);
 
-        List<Employee> result = employeeService.getAllEmployees();
+        List<EmployeeDTO> result = employeeService.getAllEmployees();
 
         assertFalse(result.isEmpty());
         assertEquals(3, result.size());
@@ -84,8 +112,9 @@ class EmployeeServiceTest {
     @Test
     void getEmployeeById() {
         when(employeeRepository.findById(0)).thenReturn(Optional.of(mockEmployeeA));
+        when(modelMapper.map(mockEmployeeA, EmployeeDTO.class)).thenReturn(mockEmployeeADTO);
 
-        Employee result = employeeService.getEmployeeById(0);
+        EmployeeDTO result = employeeService.getEmployeeById(0);
 
         assertNotNull(result);
         assertEquals("Employee A", result.getName());
@@ -94,8 +123,9 @@ class EmployeeServiceTest {
     @Test
     void getEmployeeByName() {
         when(employeeRepository.findByName("Employee A")).thenReturn(new ArrayList<>(Arrays.asList(mockEmployeeA)));
+        when(modelMapper.map(mockEmployeeA, EmployeeDTO.class)).thenReturn(mockEmployeeADTO);
 
-        List<Employee> result = employeeService.getEmployeeByName("Employee A");
+        List<EmployeeDTO> result = employeeService.getEmployeeByName("Employee A");
 
         assertFalse(result.isEmpty());
         assertEquals(1, result.size());
@@ -105,8 +135,9 @@ class EmployeeServiceTest {
     @Test
     void createEmployee() {
         when(employeeRepository.save(any(Employee.class))).thenReturn(mockEmployeeA);
+        when(modelMapper.map(mockEmployeeA, EmployeeDTO.class)).thenReturn(mockEmployeeADTO);
 
-        Employee result = employeeService.createEmployee(new Employee());
+        EmployeeDTO result = employeeService.createEmployee(new Employee());
 
         assertEquals("Employee A", result.getName());
     }
