@@ -3,7 +3,9 @@
 set -e
 set -x
 
-cd employeemgmt-service
+cd git-repo
 ./mvnw clean package
 
-cp target/*.jar ../build/
+cd ..
+cp git-repo/target/*.jar build/
+ls build

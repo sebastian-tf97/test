@@ -3,5 +3,5 @@
 set -e
 set -x
 
-cd employeemgmt-service
+cd git-repo
 ./mvnw clean test

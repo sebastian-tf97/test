@@ -1,34 +1,27 @@
 resources:
-  - name: employeemgmt-service
+  - name: git-repo
     type: git
     source:
-      uri: https://github.com/sebastian-tf97/test.git
+      uri: ((github.url))
       branch: main
   
 jobs:
   - name: test
     public: true
     plan:
-      - get: employeemgmt-service
+      - get: git-repo
         trigger: true
       - task: mvn-test
-        file: employeemgmt-service/ci/tasks/mvn-test.yml
+        file: git-repo/ci/tasks/mvn-test.yml
 
-  - name: package
+  - name: package-publish
     public: true
     plan:
-      - get: employeemgmt-service
+      - get: git-repo
         passed: [test]
         trigger: true
       - task: mvn-package
-        file: employeemgmt-service/ci/tasks/mvn-package.yml
-  
-  - name: deploy
-    public: true
-    plan:
-      - get: employeemgmt-service
-        passed: [package]
-        trigger: true
+        file: git-repo/ci/tasks/mvn-package.yml
       - task: deploy
-        file: employeemgmt-service/ci/tasks/deploy.yml
+        file: git-repo/ci/tasks/deploy.yml
         

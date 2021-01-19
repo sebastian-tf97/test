@@ -7,11 +7,11 @@ image_resource:
     tag: 8-alpine
 
 inputs:
-  - name: employeemgmt-service
+  - name: git-repo
 
 outputs:
   - name: build
 
 run:
-  path: employeemgmt-service/ci/tasks/mvn-package.sh
+  path: git-repo/ci/tasks/mvn-package.sh
   
